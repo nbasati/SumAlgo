@@ -1,22 +1,29 @@
+
 import java.math.BigInteger;
 import java.util.Scanner;
 import java.security.MessageDigest;
+//import java.security.NoSuchAlgorithmException;
+
 
 class SGSum {
 	
-	int MessageDigest(int nodeId, int lengthOfSynopsis) {
+	int MessageDigest(int nodeId, int lengthOfSynopsis)   {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
 			//String text = Integer.toString(nodeId);
 			//md.update(text.getBytes("UTF-8"));
+			byte text = (byte)nodeId;
 			
-			String binaryFormat = String.format("%8s", Integer.toBinaryString(nodeId & 0xFF)).replace(' ', '0');
-			
+			//byte[] digest = md.digest();
+			//String temp = digest.toString();
+			//Integer tempnodeid = Integer.valueOf(temp);
+			//String temp = digest.toString();
+			//String binaryFormat = new BigInteger(temp.getBytes()).toString(2);
+			String binaryFormat = String.format("%8s", Integer.toBinaryString(text));
 			int stringLength = binaryFormat.length();
 			char lastBit = binaryFormat.charAt(stringLength-1);	
 			int finalBit = Character.getNumericValue(lastBit);
 			return finalBit;
-			
 		}
 		catch (Exception e) {
 			System.out.println(e);
@@ -24,28 +31,24 @@ class SGSum {
 		return 0;
 	}
 	
-	private Object toBinaryString(String text) {
-		return null;
-	}
-
-	int CT (int nodeId, int lengthOfSynopsis) {
+	int CT (int nodeId, int lenghtOfSynopsis) {
 		int i = 1;
-		while((i < lengthOfSynopsis - 1) && (MessageDigest(nodeId, lengthOfSynopsis) == 0)) {
+		while((i < lenghtOfSynopsis - 1) && (MessageDigest(nodeId, lenghtOfSynopsis) == 0)) {
 			i = i+1;
 		}
 		return i;
 	}
 	
-	int [] syno (int node,int sensedValue, int lengthOfSynopsis) {
+	int [] syno (int node,int sensedValue, int synopsisLength) {
 		int i = 1;
-		int [] localSynopsis = new int[lengthOfSynopsis];
+		int [] localSynopsis = new int[synopsisLength];
 			while (i <= sensedValue ) {
 				int nodeId = Integer.valueOf(String.valueOf(node) + String.valueOf(i)); 
-				int j = CT(nodeId, lengthOfSynopsis);
+				int j = CT(nodeId, synopsisLength);
 				localSynopsis[j] = 1;
 				i++;
 			}
-			for(int g =0; g < lengthOfSynopsis; g++) {
+			for(int g =0; g < synopsisLength; g++) {
 				System.out.print(" " +localSynopsis[g]);
 			}	
 		System.out.println();
@@ -59,19 +62,19 @@ class SGSum {
 		//System.out.println("Enter Sensed value");
 		//int sensedValue = sc.nextInt();
 		System.out.println("Enter Synopsis length");
-		int lengthOfSynopsis = sc.nextInt();
+		int synoposisLenght = sc.nextInt();
 		
 		SGSum synopsis = new SGSum();
-		int [] finalSynopsis = new int [lengthOfSynopsis];
+		int [] finalSynopsis = new int [synoposisLenght];
 		int i = 1;
 		while (i <= node) {
 			System.out.println("Enter Sensed value");
 			int sensedValue = sc.nextInt();
-			int [] nodeId = new int[lengthOfSynopsis];
-			nodeId = synopsis.syno(i, sensedValue, lengthOfSynopsis);
+			int [] temp = new int[synoposisLenght];
+			temp = synopsis.syno(i, sensedValue, synoposisLenght);
 			i++;
 			for(int l = 0; l < finalSynopsis.length; l++) {
-				if(nodeId[l] != 0) {
+				if(temp[l] != 0) {
 					finalSynopsis[l] = 1;
 				}
 			}
