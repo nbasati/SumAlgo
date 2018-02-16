@@ -19,7 +19,7 @@ class SGSum {
 			//Integer tempnodeid = Integer.valueOf(temp);
 			//String temp = digest.toString();
 			//String binaryFormat = new BigInteger(temp.getBytes()).toString(2);
-			String binaryFormat = String.format("%8s", Integer.toBinaryString(text));
+			String binaryFormat = String.format("%8s", Integer.toBinaryString(text & 0xFF)).replace(' ', '0');
 			int stringLength = binaryFormat.length();
 			char lastBit = binaryFormat.charAt(stringLength-1);	
 			int finalBit = Character.getNumericValue(lastBit);
