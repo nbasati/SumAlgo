@@ -1,4 +1,5 @@
 
+
 import java.math.BigInteger;
 import java.util.Scanner;
 import java.security.MessageDigest;
@@ -7,19 +8,25 @@ import java.security.MessageDigest;
 
 class SGSum {
 	
-	int MessageDigest(int nodeId, int lengthOfSynopsis)   {
-		try {
-			MessageDigest md = MessageDigest.getInstance("SHA-256");
-			//String text = Integer.toString(nodeId);
-			//md.update(text.getBytes("UTF-8"));
-			byte text = (byte)nodeId;
-			
-			//byte[] digest = md.digest();
-			//String temp = digest.toString();
-			//Integer tempnodeid = Integer.valueOf(temp);
-			//String temp = digest.toString();
+	int MessageDigest(int nodeId, int lengthOfSynopsis) {
+		
+			try {
+				MessageDigest md = MessageDigest.getInstance("SHA-256");
+			  String text = Integer.toString(nodeId);
+			 md.update(text.getBytes("UTF-8"));
+			//byte text = (byte)nodeId;
+			// md.update(text);
+			// md.digest();
+			byte[] digest = md.digest();
+		    String temp = digest.toString();
+		    //int tempnode = Integer.parseInt(temp);
+			//Integer tempnodeid = Integer.valueOf(temp);  
+			// -- String temp = digest.toString();
+			 Integer test = Integer.decode(temp);
 			//String binaryFormat = new BigInteger(temp.getBytes()).toString(2);
-			String binaryFormat = String.format("%8s", Integer.toBinaryString(text & 0xFF)).replace(' ', '0');
+		    
+			String binaryFormat = String.format("%8s", Integer.toBinaryString(test & 0xFF)).replace(' ', '0');
+		    
 			int stringLength = binaryFormat.length();
 			char lastBit = binaryFormat.charAt(stringLength-1);	
 			int finalBit = Character.getNumericValue(lastBit);
@@ -55,7 +62,7 @@ class SGSum {
 		return localSynopsis;
 	}
 	
-	public static void main(String args[]) {
+	public static void main(String args[]){
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Enter number of nodes");
 		int node = sc.nextInt();
