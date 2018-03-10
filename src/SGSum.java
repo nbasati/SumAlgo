@@ -1,5 +1,3 @@
-
-
 import java.math.BigInteger;
 import java.util.Scanner;
 import java.security.MessageDigest;
@@ -12,29 +10,41 @@ class SGSum {
 		
 			try {
 				MessageDigest md = MessageDigest.getInstance("SHA-256");
-			  String text = Integer.toString(nodeId);
-			 md.update(text.getBytes("UTF-8"));
-			//byte text = (byte)nodeId;
-			// md.update(text);
-			// md.digest();
-			byte[] digest = md.digest();
-		    String temp = digest.toString();
-		    //int tempnode = Integer.parseInt(temp);
-			//Integer tempnodeid = Integer.valueOf(temp);  
-			// -- String temp = digest.toString();
-			 Integer test = Integer.decode(temp);
-			//String binaryFormat = new BigInteger(temp.getBytes()).toString(2);
+			  	String text = Integer.toString(nodeId);
+			 	md.update(text.getBytes("UTF-8"));
+				//byte text = (byte)nodeId;
+				// md.update(text);
+				// md.digest();
+				byte[] digest = md.digest();
+		        	int leftmostBit = 0;
+                        	if((digest[0] & 0x80) != 0)  // when this condition is true, we know that leftmostBit is 1
+                          	leftmostBit = 1;
+				//System.out.println ("digest[0] = " + String.format("%02X", digest[0] & 0xFF));
+                        	System.out.println(" leftmostbit= " + leftmostBit);
+ /*
+		    		String temp = digest.toString();
+		    		//int tempnode = Integer.parseInt(temp);
+				//Integer tempnodeid = Integer.valueOf(temp);  
+				// -- String temp = digest.toString();
+
+                        	System.out.println("In messageDigest: nodeId = " + nodeId + " , digest = " + digest + " , temp = " + temp );
+			 	Integer test = Integer.decode(temp);
+
+				//String binaryFormat = new BigInteger(temp.getBytes()).toString(2);
+		        
+                        	System.out.println("In messageDigest: nodeId = " + nodeId + " , temp = " + temp + " ,test " + test);
+				String binaryFormat = String.format("%8s", Integer.toBinaryString(test & 0xFF)).replace(' ', '0');
 		    
-			String binaryFormat = String.format("%8s", Integer.toBinaryString(test & 0xFF)).replace(' ', '0');
-		    
-			int stringLength = binaryFormat.length();
-			char lastBit = binaryFormat.charAt(stringLength-1);	
-			int finalBit = Character.getNumericValue(lastBit);
-			return finalBit;
-		}
-		catch (Exception e) {
-			System.out.println(e);
-		}
+				int stringLength = binaryFormat.length();
+				char lastBit = binaryFormat.charAt(stringLength-1);	
+				int finalBit = Character.getNumericValue(lastBit);
+				return finalBit;
+*/
+				return leftmostBit;
+			}
+			catch (Exception e) {
+				System.out.println(e);
+			}
 		return 0;
 	}
 	
@@ -53,6 +63,7 @@ class SGSum {
 				int nodeId = Integer.valueOf(String.valueOf(node) + String.valueOf(i)); 
 				int j = CT(nodeId, synopsisLength);
 				localSynopsis[j] = 1;
+                System.out.println("node = " + node + " , nodeId = " + nodeId + " , j = " + j);
 				i++;
 			}
 			for(int g =0; g < synopsisLength; g++) {
