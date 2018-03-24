@@ -6,40 +6,18 @@ import java.security.MessageDigest;
 
 class SGSum {
 	
-	int MessageDigest(int nodeId, int lengthOfSynopsis) {
+	int CoinToss(int nodeintandId, int lengthOfSynopsis) {
 		
 			try {
 				MessageDigest md = MessageDigest.getInstance("SHA-256");
-			  	String text = Integer.toString(nodeId);
+			  	String text = Integer.toString(nodeintandId);
 			 	md.update(text.getBytes("UTF-8"));
-				//byte text = (byte)nodeId;
-				// md.update(text);
-				// md.digest();
 				byte[] digest = md.digest();
-		        	int leftmostBit = 0;
-                        	if((digest[0] & 0x80) != 0)  // when this condition is true, we know that leftmostBit is 1
-                          	leftmostBit = 1;
-				//System.out.println ("digest[0] = " + String.format("%02X", digest[0] & 0xFF));
-                        	System.out.println(" leftmostbit= " + leftmostBit);
- /*
-		    		String temp = digest.toString();
-		    		//int tempnode = Integer.parseInt(temp);
-				//Integer tempnodeid = Integer.valueOf(temp);  
-				// -- String temp = digest.toString();
-
-                        	System.out.println("In messageDigest: nodeId = " + nodeId + " , digest = " + digest + " , temp = " + temp );
-			 	Integer test = Integer.decode(temp);
-
-				//String binaryFormat = new BigInteger(temp.getBytes()).toString(2);
-		        
-                        	System.out.println("In messageDigest: nodeId = " + nodeId + " , temp = " + temp + " ,test " + test);
-				String binaryFormat = String.format("%8s", Integer.toBinaryString(test & 0xFF)).replace(' ', '0');
-		    
-				int stringLength = binaryFormat.length();
-				char lastBit = binaryFormat.charAt(stringLength-1);	
-				int finalBit = Character.getNumericValue(lastBit);
-				return finalBit;
-*/
+				
+		        int leftmostBit = 0;
+				if((digest[31] & 0x80) != 0)// when this condition is true, we know that leftmostBit is 1
+					leftmostBit = 1;
+				System.out.println(" leftmostbit= " + leftmostBit);
 				return leftmostBit;
 			}
 			catch (Exception e) {
@@ -48,22 +26,24 @@ class SGSum {
 		return 0;
 	}
 	
-	int CT (int nodeId, int lenghtOfSynopsis) {
+	int CT (int nodeintandId, int lenghtOfSynopsis) {
 		int i = 1;
-		while((i < lenghtOfSynopsis - 1) && (MessageDigest(nodeId, lenghtOfSynopsis) == 0)) {
+		while((i < lenghtOfSynopsis-1) && (CoinToss(nodeintandId, lenghtOfSynopsis) == 0)) {
 			i = i+1;
+			//System.out.println("i= " +i);
 		}
 		return i;
+		
 	}
 	
 	int [] syno (int node,int sensedValue, int synopsisLength) {
 		int i = 1;
 		int [] localSynopsis = new int[synopsisLength];
 			while (i <= sensedValue ) {
-				int nodeId = Integer.valueOf(String.valueOf(node) + String.valueOf(i)); 
-				int j = CT(nodeId, synopsisLength);
+				int nodeintandId = Integer.valueOf(String.valueOf(node) + String.valueOf(i)); 
+				int j = CT(nodeintandId, synopsisLength);
 				localSynopsis[j] = 1;
-                System.out.println("node = " + node + " , nodeId = " + nodeId + " , j = " + j);
+                System.out.println("node = " + node + " , nodeId = " + nodeintandId + " , j = " + j);
 				i++;
 			}
 			for(int g =0; g < synopsisLength; g++) {
